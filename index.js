@@ -2,22 +2,36 @@ const ping = require('ping')
 const fetch = require('node-fetch')
 
 class NetworkScan{
-  async poll(host){
+  async poll(host, config){
+    if(!config){
+      config = {
+        repeat:1,
+        size:32,
+        timeout:1
+      }
+    }
+    if(!config.repeat){
+      config.repeat = 1
+    }
+    if(!config.size){
+      config.size = 32
+    }
+    if(!config.timeout){
+      config.timeout = 1
+    }
     if(!host){
       return new Error('Host cannot be null')
     }
     try{
-      let p = await ping.promise.probe(host).then((res)=>{
-        if(res.alive){
-          return {
-            status:'online',
-            time:`${res.min}ms`
-          }
-        }else{
-          return {
-            status:'offline',
-            time:'unreachable'
-          }
+      let p = await ping.promise.probe(host, {min_reply:config.repeat, packetSize:config.size, timeout:config.timeout}).then((res)=>{
+        const status = res.alive == true ? ('online'):('offline')
+        return {
+          host:host,
+          ip_address:res.numeric_host,
+          status:status,
+          res_avg:`${res.avg}ms`,
+          times:res.times,
+          packet_loss:res.packetLoss
         }
       })
       return p
@@ -27,12 +41,27 @@ class NetworkScan{
   }
 
   getSubnet(subnet){
+    if(!subnet.split('/')[1]){
+      return new Error(`${subnet} is an invalid subnet`)
+    }
     return fetch(`https://networkcalc.com/api/ip/${subnet}?binary=1`)
       .then((res) => {
         return res.json()
       })
       .then((data)=>{
-        return data
+        var addr = data.address
+        var obj = {
+          subnet:addr.cidr_notation,
+          subnet_bits:addr.subnet_bits,
+          subnet_mask:addr.subnet_mask,
+          network_address:addr.network_address,
+          broadcast_address:addr.broadcast_address,
+          first_host:addr.first_assignable_host,
+          last_host:addr.last_assignable_host,
+          available_hosts:addr.assignable_hosts,
+          host_range:`${addr.first_assignable_host}-${addr.last_assignable_host.split('.')[3]}`
+        }
+        return obj
       })
   }
 
@@ -61,7 +90,7 @@ class NetworkScan{
     await Promise.all(arr.map(async (a) => {
       try{
         const index = arr.indexOf(a)
-        const each_node = await this.poll(a)
+        const each_node = await this.poll(a,{repeat:1,size:32,time:1})
         if(each_node.status === 'online') new_arr.push(a)
       }catch(err){
         throw new Error(err)

@@ -1,7 +1,7 @@
 # NodeJS Network Scanner
+NodeJS library that performs basic network diagnostics such as latency ping tests, IP address scanning and subnet calculating
 
 ## Installation
-
 ```bash
 npm install network-scanjs
 ```
@@ -20,18 +20,31 @@ const netScan = new NetworkScan()
 
 ### Ping Address
 ```javascript
+const config = {
+  repeat:4, //Specifies how many pings to send to the host, if null default is 1
+  size:56, //Size of bytes in each packet sent, if null default is 32
+  timeout:1 //Specifies the timeout of each ping in seconds, if null default is 1
+}
+
 async function ping(){
-  const poll = await netScan.poll('192.168.1.254')
+  const poll = await netScan.poll('google.com',config)
   console.log(poll)
 }
 
-netScan.poll('192.168.1.254').then((res)=>{
+netScan.poll('google.com',config).then((res)=>{
   console.log(res);
 })
 ```
 Expected output
 ```javascript
- { status: 'online', time: '0.1ms' }
+{
+  host: 'google.com',
+  ip_address: '172.217.167.78',
+  status: 'online',
+  res_avg: '35.000ms',
+  times: [ 36, 35, 35, 36 ],
+  packetLoss: '0.000'
+}
 ```
 
 ### IP Scan
@@ -50,45 +63,38 @@ This will return an array of all the online hosts between the range (192.168.1.0
 ### Subnet Calculator
 ```javascript
 netScan.getSubnet('192.168.1.0/24').then((net)=>{
-    console.log(net);
+    console.log(net)
 })
 
 async function getSubnet(){
     const subnet = await netScan.getSubnet('192.168.1.0/24')
-    console.log(subnet);
+    console.log(subnet)
 }
 ```
 Expected output
 ```bash
 {
-  status: 'OK',
-  meta: {
-    permalink: 'https://networkcalc.com/subnet-calculator/192.168.1.0/24',
-    next_address: 'https://networkcalc.com/api/ip/192.168.1.1/24?binary=1'
-  },
-  address: {
-    cidr_notation: '192.168.1.0/24',
-    subnet_bits: 24,
-    subnet_mask: '255.255.255.0',
-    wildcard_mask: '0.0.0.255',
-    network_address: '192.168.1.0',
-    broadcast_address: '192.168.1.255',
-    assignable_hosts: 254,
-    first_assignable_host: '192.168.1.1',
-    last_assignable_host: '192.168.1.254',
-    binary: {
-      octet_1: '00000001',
-      octet_2: '00000001',
-      octet_3: '00000001',
-      octet_4: '00000000',
-      address: '11000000 10101000 00000001 00000000',
-      subnet_mask: '11111111 11111111 11111111 00000000',
-      wildcard_mask: '00000000 00000000 00000000 11111111',
-      network_address: '11000000 10101000 00000001 00000000',
-      broadcast_address: '11000000 10101000 00000001 11111111',
-      first_assignable_host: '11000000 10101000 00000001 00000001',
-      last_assignable_host: '11000000 10101000 00000001 11111110'
-    }
-  }
+  subnet: '192.168.1.0/24',
+  subnet_bits: 24,
+  subnet_mask: '255.255.255.0',
+  network_address: '192.168.1.0',
+  broadcast_address: '192.168.1.255',
+  first_host: '192.168.1.1',
+  last_host: '192.168.1.254',
+  available_hosts: 254,
+  host_range: '192.168.1.1-254'
 }
 ```
+
+Use different functions together
+```javascript
+async function ipScanSubnet(){
+    const subnet = await netScan.getSubnet('192.168.1.0/24')
+    netScan.ipScan(subnet.host_range).then((hosts)=>{
+      console.log(hosts)
+    })
+}
+```
+
+## Contributing
+NodeJS Network Scanner is an open source project and the repository can be cloned from [github](https://github.com/hugopage17/network-scan)

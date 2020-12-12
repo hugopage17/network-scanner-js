@@ -11,9 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "node-fetch": "^2.6.1",
-    "nodejs-traceroute": "^1.2.0",
-    "ping": "^0.2.3",
-    "traceroute": "^1.0.0",
-    "underscore": "^1.10.2"
+    "ping": "^0.2.3"
   }
 }
