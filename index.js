@@ -1,13 +1,7 @@
 const ping = require('ping')
-const _ = require('underscore')
-traceroute = require('traceroute');
-var myArgs = process.argv.slice(2);
+const fetch = require('node-fetch')
 
-class NodeScan{
-  constructor(){
-
-  }
-
+class NetworkScan{
   async poll(host){
     if(!host){
       return new Error('Host cannot be null')
@@ -32,16 +26,17 @@ class NodeScan{
     }
   }
 
-  ping_subnet(subnet){
-    try{
-      const subnet_mask = subnet.split('/')
-      if(!subnet.includes('/')) return new Error('Invalid Subnet Mask')
-    }catch(err){
-      return err
-    }
+  getSubnet(subnet){
+    return fetch(`https://networkcalc.com/api/ip/${subnet}?binary=1`)
+      .then((res) => {
+        return res.json()
+      })
+      .then((data)=>{
+        return data
+      })
   }
 
-  get_range(range){
+  getRange(range){
     if(range.includes('-') === false)
       throw new Error('Invalid IP Range, e.g(192.168.1.1-254)')
     if(!range)
@@ -60,8 +55,8 @@ class NodeScan{
     return array
   }
 
-  async ip_scan(range){
-    const arr = this.get_range(range)
+  async ipScan(range){
+    const arr = this.getRange(range)
     var new_arr = []
     await Promise.all(arr.map(async (a) => {
       try{
@@ -74,20 +69,6 @@ class NodeScan{
     }))
     return new_arr
   }
-
-  trace(dest){
-    traceroute.trace(dest, function (err,hops) {
-      if (!err) console.log(hops)
-    })
-  }
 }
 
-const node = new NodeScan()
-
-async function runScan(){
-  const range = myArgs[0]
-  const scan = await node.ip_scan(range)
-  console.log(scan)
-}
-
-runScan()
+module.exports.NetworkScan = NetworkScan
