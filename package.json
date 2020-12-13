@@ -1,13 +1,23 @@
 {
   "name": "network-scanjs",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "A network diagnostics library that can run ping tests, IP scanning and subnet calculating along with other network troubleshooting tests",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Hugo Page",
+  "keywords": [
+    "promise",
+    "async",
+    "ping",
+    "ssl",
+    "mac lookup",
+    "subnet calculator",
+    "latency test",
+    "network programming"
+  ],
   "license": "ISC",
   "dependencies": {
     "extract-domain": "^2.2.1",
