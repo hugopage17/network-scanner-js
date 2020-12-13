@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 const sslCertificate = require('get-ssl-certificate')
 const extractDomain = require('extract-domain')
 
-class NetworkScan{
+class NetworkScanner{
   async poll(host, config){
     if(!config){
       config = {
@@ -114,4 +114,4 @@ class NetworkScan{
   }
 }
 
-module.exports.NetworkScan = NetworkScan
+module.exports.NetworkScanner = NetworkScanner

@@ -1,6 +1,6 @@
 {
   "name": "network-scanner-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A network diagnostics library that can run ping tests, IP scanning and subnet calculating along with other network troubleshooting tests",
   "main": "index.js",
   "scripts": {
