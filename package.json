@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "extract-domain": "^2.2.1",
+    "get-ssl-certificate": "^2.3.3",
     "node-fetch": "^2.6.1",
     "ping": "^0.2.3"
   }

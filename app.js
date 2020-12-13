@@ -2,21 +2,10 @@ const {NetworkScan} = require('./index.js')
 
 const netScan = new NetworkScan()
 
-
-const config = {
-  repeat:4, //Specifies how many pings to send to the host, if null default is 1
-  size:56, //Size of bytes in each packet sent, if null default is 32
-  timeout:1 //Specifies the timeout of each ping in seconds, if null default is 1
+async function getMac(){
+  let mac = await netScan.macLookup('FC-A1-3E-2A-1C-33')
+  console.log(mac)
 }
-
-async function runPing(){
-  let ping = await netScan.poll('10.167.4.44')
-  console.log(ping)
-}
-
-async function getSubnet(){
-  const subnet = await netScan.getSubnet('10.167.4.44/29')
+netScan.getSubnet('10.167.4.44/29').then((subnet)=>{
   console.log(subnet)
-}
-
-getSubnet()
+})

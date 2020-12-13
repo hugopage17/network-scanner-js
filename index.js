@@ -1,5 +1,7 @@
 const ping = require('ping')
 const fetch = require('node-fetch')
+const sslCertificate = require('get-ssl-certificate')
+const extractDomain = require('extract-domain')
 
 class NetworkScan{
   async poll(host, config){
@@ -97,6 +99,18 @@ class NetworkScan{
       }
     }))
     return new_arr
+  }
+
+  async macLookup(mac){
+    let res = await fetch(`https://api.macvendors.com/${mac}`)
+    let data = await res.text()
+    return data
+  }
+
+  async getSsl(url){
+    const domain = extractDomain(url)
+    let ssl = await sslCertificate.get('nodejs.org')
+    return ssl
   }
 }
 
