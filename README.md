@@ -10,7 +10,7 @@ npm install --save network-scanjs
 
 ### Initialize a new Class
 ```javascript
-const {NetworkScan} = require('network-scanjs')
+const {NetworkScan} = require('network-scanner-js')
 const netScan = new NetworkScan()
 ```
 
