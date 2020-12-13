@@ -1,5 +1,5 @@
 # NodeJS Network Scanner
-NodeJS library that performs basic network diagnostics such as latency ping tests, IP address scanning, subnet calculating and SSL certifications and Vendor lookups
+A NodeJS library that can perform network diagnostic tests such as latency ping tests, IP address scanning, subnet calculating and SSL certifications and Vendor lookups
 
 ## Installation
 ```bash

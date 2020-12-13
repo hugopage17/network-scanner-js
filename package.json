@@ -1,7 +1,7 @@
 {
   "name": "network-scanjs",
-  "version": "1.0.2",
-  "description": "",
+  "version": "1.0.3",
+  "description": "A network diagnostics library that can run ping tests, IP scanning and subnet calculating along with other network troubleshooting tests",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
