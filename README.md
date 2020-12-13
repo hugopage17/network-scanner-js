@@ -10,8 +10,8 @@ npm install --save network-scanner-js
 
 ### Initialize a new Class
 ```javascript
-const {NetworkScan} = require('network-scanner-js')
-const netScan = new NetworkScan()
+const {NetworkScanner} = require('network-scanner-js')
+const netScan = new NetworkScanner()
 ```
 
 ### Ping Address
