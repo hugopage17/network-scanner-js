@@ -106,7 +106,7 @@ netScan.macLookup('FC-A1-3E-2A-1C-33').then((vendor)=>{
 })
 
 async function macLook(){
-  const vendor = netScan.macLookup('FC-A1-3E-2A-1C-33')
+  const vendor = await netScan.macLookup('FC-A1-3E-2A-1C-33')
   console.log(vendor)
 }
 ```
@@ -124,7 +124,7 @@ netScan.getSsl('https://jsonplaceholder.typicode.com/users').then((cert)=>{
 })
 
 async function getCert(){
-  let ssl = netScan.getSsl('https://jsonplaceholder.typicode.com/users')
+  let ssl = await netScan.getSsl('https://jsonplaceholder.typicode.com/users')
   console.log(ssl)
 }
 ```
