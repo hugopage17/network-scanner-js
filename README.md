@@ -3,7 +3,7 @@ A NodeJS library that can perform network diagnostic tests such as latency ping 
 
 ## Installation
 ```bash
-npm install --save network-scanjs
+npm install --save network-scanner-js
 ```
 
 ## Usage
