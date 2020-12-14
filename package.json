@@ -4,10 +4,9 @@
   "description": "A network diagnostics library that can run ping tests, IP scanning and subnet calculating along with other network troubleshooting tests",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d dist"
   },
-  "keywords": [],
-  "author": "Hugo Page",
   "keywords": [
     "promise",
     "async",
@@ -18,12 +17,19 @@
     "latency test",
     "network programming"
   ],
+  "author": "Hugo Page",
   "readme": "README.md",
   "license": "ISC",
   "dependencies": {
     "extract-domain": "^2.2.1",
     "get-ssl-certificate": "^2.3.3",
     "node-fetch": "^2.6.1",
-    "ping": "^0.2.3"
+    "ping": "^0.2.3",
+    "socket.io": "^3.0.4",
+    "socket.io-client": "^3.0.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
   }
 }

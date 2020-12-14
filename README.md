@@ -10,7 +10,10 @@ npm install --save network-scanner-js
 
 ### Initialize a new Class
 ```javascript
-const {NetworkScanner} = require('network-scanner-js')
+const NetworkScanner = require('network-scanner-js')
+///Using ES6
+import NetworkScanner from 'network-scanner-js'
+
 const netScan = new NetworkScanner()
 ```
 
