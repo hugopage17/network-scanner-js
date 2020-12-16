@@ -1,11 +1,12 @@
 {
   "name": "network-scanner-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A network diagnostics library that can run ping tests, IP scanning and subnet calculating along with other network troubleshooting tests",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d dist"
+    "build": "babel src -d dist",
+    "start": "node -r esm src/index.js"
   },
   "keywords": [
     "promise",
@@ -21,6 +22,7 @@
   "readme": "README.md",
   "license": "ISC",
   "dependencies": {
+    "esm": "^3.2.25",
     "extract-domain": "^2.2.1",
     "get-ssl-certificate": "^2.3.3",
     "node-fetch": "^2.6.1",

@@ -6,13 +6,25 @@ var _ping = require('ping');
 
 var _ping2 = _interopRequireDefault(_ping);
 
+var _nodeFetch = require('node-fetch');
+
+var _nodeFetch2 = _interopRequireDefault(_nodeFetch);
+
+var _getSslCertificate = require('get-ssl-certificate');
+
+var _getSslCertificate2 = _interopRequireDefault(_getSslCertificate);
+
+var _extractDomain = require('extract-domain');
+
+var _extractDomain2 = _interopRequireDefault(_extractDomain);
+
+var _socket = require('socket.io-client');
+
+var _socket2 = _interopRequireDefault(_socket);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var fetch = require('node-fetch');
-var sslCertificate = require('get-ssl-certificate');
-var extractDomain = require('extract-domain');
 
 var NetworkScanner = function () {
   function NetworkScanner() {
@@ -64,7 +76,7 @@ var NetworkScanner = function () {
       if (!subnet.split('/')[1]) {
         return new Error(subnet + ' is an invalid subnet');
       }
-      return fetch('https://networkcalc.com/api/ip/' + subnet + '?binary=1').then(function (res) {
+      return (0, _nodeFetch2.default)('https://networkcalc.com/api/ip/' + subnet + '?binary=1').then(function (res) {
         return res.json();
       }).then(function (data) {
         var addr = data.address;
@@ -101,7 +113,7 @@ var NetworkScanner = function () {
     }
   }, {
     key: 'ipScan',
-    value: async function ipScan(range) {
+    value: async function ipScan(range, cb) {
       var _this = this;
 
       var arr = this.getRange(range);
@@ -109,26 +121,41 @@ var NetworkScanner = function () {
       await Promise.all(arr.map(async function (a) {
         try {
           var each_node = await _this.poll(a);
-          if (each_node.status === 'online') new_arr.push(a);
+          if (each_node.status === 'online') cb(each_node);
         } catch (err) {
           throw new Error(err);
         }
       }));
-      return new_arr;
     }
   }, {
     key: 'macLookup',
     value: async function macLookup(mac) {
-      var res = await fetch('https://api.macvendors.com/' + mac);
+      var res = await (0, _nodeFetch2.default)('https://api.macvendors.com/' + mac);
       var data = await res.text();
       return data;
     }
   }, {
     key: 'getSsl',
     value: async function getSsl(url) {
-      var domain = extractDomain(url);
-      var ssl = await sslCertificate.get('nodejs.org');
+      var domain = (0, _extractDomain2.default)(url);
+      var ssl = await _getSslCertificate2.default.get('nodejs.org');
       return ssl;
+    }
+  }, {
+    key: 'clusterPing',
+    value: async function clusterPing(array, cb) {
+      var _this2 = this;
+
+      var new_arr = [];
+      await Promise.all(array.map(async function (a) {
+        try {
+          var each_node = await _this2.poll(a);
+          new_arr.push(each_node);
+        } catch (err) {
+          throw new Error(err);
+        }
+      }));
+      cb(new_arr);
     }
   }]);
 

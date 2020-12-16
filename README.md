@@ -46,18 +46,58 @@ Expected output
 }
 ```
 
+### Cluster Ping
+```javascript
+var array = ['google.com', 'vevadev.co.nz', 'youtube.com', 'wandelapp.com']
+netScan.clusterPing(array, nodes => {
+  console.log(nodes)
+})
+```
+Expected output
+```javascript
+[
+  {
+    host: 'google.com',
+    ip_address: '172.217.25.174',
+    status: 'online',
+    res_avg: '36.000ms',
+    times: [ 36 ],
+    packet_loss: '0.000'
+  },
+  {
+    host: 'youtube.com',
+    ip_address: '142.250.67.14',
+    status: 'online',
+    res_avg: '37.000ms',
+    times: [ 37 ],
+    packet_loss: '0.000'
+  },
+  {
+    host: 'vevadev.co.nz',
+    ip_address: '65.9.134.126',
+    status: 'online',
+    res_avg: '14.000ms',
+    times: [ 14 ],
+    packet_loss: '0.000'
+  },
+  {
+    host: 'wandelapp.com',
+    ip_address: '65.9.134.81',
+    status: 'online',
+    res_avg: '15.000ms',
+    times: [ 15 ],
+    packet_loss: '0.000'
+  }
+]
+```
+
 ### IP Scan
 ```javascript
-netScan.ipScan('192.168.1.0-24').then((hosts)=>{
-  console.log(hosts)
+netScan.ipScan('192.168.1.0-254', host => {
+  console.log(host)
 })
-
-async function runScan(){
-  const scan = await netScan.ipScan('192.168.1.0-24')
-  console.log(scan)
-}
 ```
-This will return an array of all the online hosts between the range (192.168.1.0 to 192.168.1.24)
+This will return each online host between the range (192.168.1.0 to 192.168.1.254) one by one
 
 ### Subnet Calculator
 ```javascript
