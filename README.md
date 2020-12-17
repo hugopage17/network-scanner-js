@@ -128,15 +128,15 @@ Expected output
 Use different functions together
 ```javascript
 netScan.getSubnet('192.168.1.0/24').then((net)=>{
-  netScan.ipScan(net.host_range).then((hosts)=>{
-    console.log(hosts)
+  netScan.ipScan(net.host_range, host => {
+    console.log(host)
   })
 })
 
 async function ipScanSubnet(){
     const subnet = await netScan.getSubnet('192.168.1.0/24')
-    netScan.ipScan(subnet.host_range).then((hosts)=>{
-      console.log(hosts)
+    netScan.ipScan(subnet.host_range, host => {
+      console.log(host)
     })
 }
 ```

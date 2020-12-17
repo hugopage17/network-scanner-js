@@ -22,6 +22,8 @@ var _webSocket = require('./web-socket.js');
 
 var _webSocket2 = _interopRequireDefault(_webSocket);
 
+var _functions = require('./functions');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -79,49 +81,20 @@ var NetworkScanner = function () {
       return (0, _nodeFetch2.default)('https://networkcalc.com/api/ip/' + subnet + '?binary=1').then(function (res) {
         return res.json();
       }).then(function (data) {
-        var addr = data.address;
-        var obj = {
-          subnet: addr.cidr_notation,
-          subnet_bits: addr.subnet_bits,
-          subnet_mask: addr.subnet_mask,
-          network_address: addr.network_address,
-          broadcast_address: addr.broadcast_address,
-          first_host: addr.first_assignable_host,
-          last_host: addr.last_assignable_host,
-          available_hosts: addr.assignable_hosts,
-          host_range: addr.first_assignable_host + '-' + addr.last_assignable_host.split('.')[3]
-        };
+        var obj = (0, _functions.subnetData)(data);
         return obj;
       });
-    }
-  }, {
-    key: 'getRange',
-    value: function getRange(range) {
-      if (range.includes('-') === false) throw new Error('Invalid IP Range, e.g(192.168.1.1-254)');
-      if (!range) throw new Error('IP Range cannot be null, e.g(192.168.1.1-254)');
-      var array = [];
-      var network = range.split('-')[0];
-      var max = range.split('-')[1];
-      if (max > 255) throw new Error('Invalid IP Range, e.g(192.168.1.1-254)');
-      var min = network.split('.')[3];
-      network = network.replace(min, '');
-      for (var i = min; i <= max; i++) {
-        var node = network.concat(i);
-        array.push(node);
-      }
-      return array;
     }
   }, {
     key: 'ipScan',
     value: async function ipScan(range, cb) {
       var _this = this;
 
-      var arr = this.getRange(range);
-      var new_arr = [];
+      var arr = (0, _functions.getRange)(range);
       await Promise.all(arr.map(async function (a) {
         try {
           var each_node = await _this.poll(a);
-          if (each_node.status === 'online') cb(each_node);
+          each_node.status === 'online' ? cb(each_node) : null;
         } catch (err) {
           throw new Error(err);
         }
