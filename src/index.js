@@ -2,7 +2,7 @@ import ping from 'ping'
 import fetch from 'node-fetch'
 import sslCertificate from 'get-ssl-certificate'
 import extractDomain from 'extract-domain'
-import io from 'socket.io-client'
+import WebSocket from './web-socket.js'
 
 class NetworkScanner{
   async poll(host, config){
@@ -123,6 +123,16 @@ class NetworkScanner{
       }
     }))
     cb(new_arr)
+  }
+
+  netServer(port){
+    const server = new WebSocket.Server(port)
+    return server
+  }
+
+  netClient(host){
+    const client = new WebSocket.Client(host)
+    return client
   }
 }
 

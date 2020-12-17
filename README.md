@@ -141,6 +141,23 @@ async function ipScanSubnet(){
 }
 ```
 
+### Web Socket Connections
+Create a socket server
+```javascript
+const server = netScan.netServer(PORT)
+server.on('connection', socket => {
+  socket.emit('request', /*message*/) // emit an event to the socket
+  server.emit('broadcast', /*message to all connected sockets*/) // emit an event to all connected sockets
+  socket.on('reply', (msg) => {/*recieve message sent from socket*/}) // listen to the event
+})
+```
+Create a socket client
+```javascript
+const client = netScan.netClient(ServerAddress)
+client.emit('reply','message') //send message to the server
+client.on('broadcast', (msg)=>{}) //Listen to incoming messages from server over the broadcast path
+```
+
 ### MAC Address Lookup
 Get the vendor of a custom MAC address
 ```javascript

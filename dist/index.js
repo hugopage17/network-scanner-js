@@ -18,9 +18,9 @@ var _extractDomain = require('extract-domain');
 
 var _extractDomain2 = _interopRequireDefault(_extractDomain);
 
-var _socket = require('socket.io-client');
+var _webSocket = require('./web-socket.js');
 
-var _socket2 = _interopRequireDefault(_socket);
+var _webSocket2 = _interopRequireDefault(_webSocket);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -156,6 +156,18 @@ var NetworkScanner = function () {
         }
       }));
       cb(new_arr);
+    }
+  }, {
+    key: 'netServer',
+    value: function netServer(port) {
+      var server = new _webSocket2.default.Server(port);
+      return server;
+    }
+  }, {
+    key: 'netClient',
+    value: function netClient(host) {
+      var client = new _webSocket2.default.Client(host);
+      return client;
     }
   }]);
 
