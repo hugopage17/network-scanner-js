@@ -3,6 +3,7 @@ import fetch from 'node-fetch'
 import sslCertificate from 'get-ssl-certificate'
 import extractDomain from 'extract-domain'
 import WebSocket from './web-socket.js'
+import Traceroute from 'nodejs-traceroute'
 import {getRange, subnetData} from './functions'
 
 class NetworkScanner{
@@ -104,6 +105,21 @@ class NetworkScanner{
     const client = new WebSocket.Client(host)
     return client
   }
+
+  traceroute(dest, cb){
+   try {
+     const tracer = new Traceroute();
+     tracer.on('hop', (hop) => {
+       cb(hop)
+     }).on('close', (code) => {
+        return
+      })
+    tracer.trace(dest);
+   } catch (ex) {
+     return ex
+   }
+  }
 }
+
 
 module.exports = NetworkScanner

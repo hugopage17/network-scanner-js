@@ -1,6 +1,6 @@
 {
   "name": "network-scanner-js",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A network diagnostics library that can run ping tests, IP scanning and subnet calculating along with other network troubleshooting tests",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,8 @@
     "latency test",
     "network programming",
     "web sockets",
-    "TCP connections"
+    "TCP connections",
+    "Traceroute"
   ],
   "author": "Hugo Page",
   "readme": "README.md",
@@ -28,6 +29,7 @@
     "extract-domain": "^2.2.1",
     "get-ssl-certificate": "^2.3.3",
     "node-fetch": "^2.6.1",
+    "nodejs-traceroute": "^1.2.0",
     "ping": "^0.2.3",
     "socket.io": "^3.0.4",
     "socket.io-client": "^3.0.4"

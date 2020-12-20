@@ -99,6 +99,88 @@ netScan.ipScan('192.168.1.0-254', host => {
 ```
 This will return each online host between the range (192.168.1.0 to 192.168.1.254) one by one
 
+### Traceroute
+```javascript
+netScan.traceroute('google.com',(hop)=>{
+  console.log(hop)
+})
+```
+Expected output
+```javascript
+{
+  hop: 1,
+  rtt1: '2 ms',
+  rtt2: '2 ms',
+  rtt3: '1 ms',
+  ip: '192.168.1.254'
+}
+{
+  hop: 2,
+  rtt1: '7 ms',
+  rtt2: '3 ms',
+  rtt3: '3 ms',
+  ip: '219.88.156.1'
+}
+{ hop: 3, rtt1: '*', rtt2: '*', rtt3: '*', ip: 'Request timed out.' }
+{
+  hop: 4,
+  rtt1: '17 ms',
+  rtt2: '15 ms',
+  rtt3: '15 ms',
+  ip: '122.56.113.4'
+}
+{
+  hop: 5,
+  rtt1: '15 ms',
+  rtt2: '15 ms',
+  rtt3: '16 ms',
+  ip: '122.56.119.53'
+}
+{
+  hop: 6,
+  rtt1: '38 ms',
+  rtt2: '39 ms',
+  rtt3: '39 ms',
+  ip: '202.50.232.110'
+}
+{
+  hop: 7,
+  rtt1: '49 ms',
+  rtt2: '38 ms',
+  rtt3: '39 ms',
+  ip: '202.50.232.246'
+}
+{
+  hop: 8,
+  rtt1: '40 ms',
+  rtt2: '39 ms',
+  rtt3: '39 ms',
+  ip: '72.14.217.100'
+}
+{
+  hop: 9,
+  rtt1: '42 ms',
+  rtt2: '39 ms',
+  rtt3: '38 ms',
+  ip: '108.170.247.33'
+}
+{
+  hop: 10,
+  rtt1: '39 ms',
+  rtt2: '39 ms',
+  rtt3: '39 ms',
+  ip: '209.85.243.145'
+}
+{
+  hop: 11,
+  rtt1: '40 ms',
+  rtt2: '39 ms',
+  rtt3: '38 ms',
+  ip: '216.58.199.46'
+}
+
+```
+
 ### Subnet Calculator
 ```javascript
 netScan.getSubnet('192.168.1.0/24').then((net)=>{
