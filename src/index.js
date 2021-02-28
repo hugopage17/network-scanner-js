@@ -79,7 +79,7 @@ class NetworkScanner{
 
   async getSsl(url){
     const domain = extractDomain(url)
-    let ssl = await sslCertificate.get('nodejs.org')
+    let ssl = await sslCertificate.get(domain)
     return ssl
   }
 
@@ -120,6 +120,5 @@ class NetworkScanner{
    }
   }
 }
-
 
 module.exports = NetworkScanner

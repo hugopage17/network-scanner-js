@@ -22,6 +22,10 @@ var _webSocket = require('./web-socket.js');
 
 var _webSocket2 = _interopRequireDefault(_webSocket);
 
+var _nodejsTraceroute = require('nodejs-traceroute');
+
+var _nodejsTraceroute2 = _interopRequireDefault(_nodejsTraceroute);
+
 var _functions = require('./functions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -141,6 +145,21 @@ var NetworkScanner = function () {
     value: function netClient(host) {
       var client = new _webSocket2.default.Client(host);
       return client;
+    }
+  }, {
+    key: 'traceroute',
+    value: function traceroute(dest, cb) {
+      try {
+        var tracer = new _nodejsTraceroute2.default();
+        tracer.on('hop', function (hop) {
+          cb(hop);
+        }).on('close', function (code) {
+          return;
+        });
+        tracer.trace(dest);
+      } catch (ex) {
+        return ex;
+      }
     }
   }]);
 
